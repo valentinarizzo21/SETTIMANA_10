@@ -6,7 +6,6 @@ import Welcome from "./components/Welcome";
 // import AllTheBooks from './components/AllTheBooks'
 import { Container } from "react-bootstrap";
 import BookList from "./components/BookList";
-
 import fantasyBooks from "./data/fantasy.json";
 
 function App() {
@@ -15,7 +14,7 @@ function App() {
       <MyNav />
       <Container>
         <Welcome />
-        {/* <AllTheBooks /> */}
+        {}
         <BookList books={fantasyBooks} />
       </Container>
       <MyFooter />
