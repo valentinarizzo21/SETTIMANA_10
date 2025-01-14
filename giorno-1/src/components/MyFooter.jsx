@@ -1,7 +1,7 @@
 const MyFooter = () => {
   return (
-    <footer className="bg-dark text-white p-3 mt-5">
-      <div className="container">
+    <footer className="bg-dark text-white p-3">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-md-6">
             <p>&copy; 2025 Valentina.</p>

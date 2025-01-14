@@ -1,49 +1,42 @@
 /* eslint-disable react/prop-types */
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 
-class AddComment extends Component {
-  state = {
-    comment: {
-      comment: "",
-      rate: 1,
-      elementId: this.props.asin,
-    },
-  };
+const AddComment = ({ asin }) => {
+  const [comment, setComment] = useState({
+    comment: "",
+    rate: 1,
+    elementId: asin,
+  });
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.asin !== this.props.asin) {
-      this.setState({
-        comment: {
-          ...this.state.comment,
-          elementId: this.props.asin,
-        },
-      });
-    }
-  }
+  useEffect(() => {
+    setComment((prevComment) => ({
+      ...prevComment,
+      elementId: asin,
+    }));
+  }, [asin]);
 
-  sendComment = async (e) => {
+  const sendComment = async (e) => {
     e.preventDefault();
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments",
         {
           method: "POST",
-          body: JSON.stringify(this.state.comment),
+          body: JSON.stringify(comment),
           headers: {
             "Content-type": "application/json",
-            Authorization: "Bearer inserisci-qui-il-tuo-token",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzg2NDlmMDBmZTRlMjAwMTU2Njg3YjAiLCJpYXQiOjE3MzY4NTQwMDAsImV4cCI6MTczODA2MzYwMH0.w7L40GNsDpzG0t_CFJ_cFdC1OQKNaCzM8Xd8b3kB9Is",
           },
         }
       );
       if (response.ok) {
         alert("Recensione inviata!");
-        this.setState({
-          comment: {
-            comment: "",
-            rate: 1,
-            elementId: this.props.asin,
-          },
+        setComment({
+          comment: "",
+          rate: 1,
+          elementId: asin,
         });
       } else {
         throw new Error("Qualcosa è andato storto");
@@ -53,54 +46,48 @@ class AddComment extends Component {
     }
   };
 
-  render() {
-    return (
-      <div className="my-3">
-        <Form onSubmit={this.sendComment}>
-          <Form.Group className="mb-2">
-            <Form.Label>Recensione</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Inserisci qui il testo"
-              value={this.state.comment.comment}
-              onChange={(e) =>
-                this.setState({
-                  comment: {
-                    ...this.state.comment,
-                    comment: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-          <Form.Group className="mb-2">
-            <Form.Label>Valutazione</Form.Label>
-            <Form.Control
-              as="select"
-              value={this.state.comment.rate}
-              onChange={(e) =>
-                this.setState({
-                  comment: {
-                    ...this.state.comment,
-                    rate: e.target.value,
-                  },
-                })
-              }
-            >
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </Form.Control>
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Invia
-          </Button>
-        </Form>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="my-3">
+      <Form onSubmit={sendComment}>
+        <Form.Group className="mb-2">
+          <Form.Label className="h2 fw-bold">RATE US!</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Inserisci qui il testo"
+            value={comment.comment}
+            onChange={(e) =>
+              setComment((prevComment) => ({
+                ...prevComment,
+                comment: e.target.value,
+              }))
+            }
+          />
+        </Form.Group>
+        <Form.Group className="mb-2">
+          <Form.Label className="h4 fw-lighter">Valutation</Form.Label>
+          <Form.Control
+            as="select"
+            value={comment.rate}
+            onChange={(e) =>
+              setComment((prevComment) => ({
+                ...prevComment,
+                rate: e.target.value,
+              }))
+            }
+          >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </Form.Control>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          SEND!
+        </Button>
+      </Form>
+    </div>
+  );
+};
 
 export default AddComment;
