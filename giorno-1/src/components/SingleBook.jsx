@@ -1,37 +1,34 @@
 /* eslint-disable react/prop-types */
-import { Component } from "react";
-import { Card } from "react-bootstrap";
-// import CommentArea from './CommentArea'
 
-class SingleBook extends Component {
-  // state = {
-  //   selected: false,
-  // }
+import { Card, Col, Button } from "react-bootstrap";
 
-  render() {
-    return (
-      <>
-        <Card
-          // onClick={() => this.setState({ selected: !this.state.selected })}
-          onClick={() => this.props.changeSelectedBook(this.props.book.asin)}
-          style={{
-            border:
-              this.props.selectedBook === this.props.book.asin
-                ? "3px solid red"
-                : "none",
-          }}
-        >
-          <Card.Img variant="top" src={this.props.book.img} />
-          <Card.Body>
-            <Card.Title style={{ color: "black" }}>
-              {this.props.book.title}
-            </Card.Title>
-          </Card.Body>
-        </Card>
-        {/* {this.state.selected && <CommentArea asin={this.props.book.asin} />} */}
-      </>
-    );
-  }
-}
+const SingleBook = ({ book, changeSelectedBook, selectedBook }) => {
+  const handleCardClick = () => {
+    changeSelectedBook(selectedBook === book.asin ? null : book.asin);
+  };
+
+  return (
+    <Col className="p-1">
+      <Card
+        onClick={handleCardClick}
+        style={{
+          border: selectedBook === book.asin ? "3px solid red" : "none",
+        }}
+      >
+        <Card.Img variant="top" src={book.img} style={{ height: "400px" }} />
+        <Card.Body className="d-flex flex-column justify-content-between w-100 p-3">
+          <Card.Title style={{ height: "80px" }} className="h4 overflow-scroll">
+            {book.title}
+          </Card.Title>
+          <Card.Text className="h2 fw-light">{book.price} $</Card.Text>
+          <Card.Text className="align-self-end">
+            <i>{book.category}</i>
+          </Card.Text>
+          <Button variant="primary">Shop Now</Button>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+};
 
 export default SingleBook;

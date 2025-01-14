@@ -10,7 +10,6 @@ const CommentArea = ({ asin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  // Effetto per recuperare i commenti quando `asin` cambia
   useEffect(() => {
     const fetchComments = async () => {
       setIsLoading(true);
@@ -24,7 +23,6 @@ const CommentArea = ({ asin }) => {
             },
           }
         );
-        console.log(response);
         if (response.ok) {
           let data = await response.json();
           setComments(data);
