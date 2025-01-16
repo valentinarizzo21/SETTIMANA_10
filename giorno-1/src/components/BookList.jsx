@@ -34,7 +34,7 @@ const BookList = ({ books }) => {
                 b.title.toLowerCase().includes(searchQuery.toLowerCase())
               )
               .map((b) => (
-                <Col xs={12} md={4} key={b.asin}>
+                <Col xs={12} md={4} key={b.asin} data-testid="article">
                   <SingleBook
                     book={b}
                     selectedBook={selectedBook}
